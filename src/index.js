@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import '@babel/polyfill';
 import express from 'express';
 import React from 'react';
@@ -7,6 +6,7 @@ import compression from 'compression';
 import renderer from './helpers/renderer';
 import createStore from './store/createStore';
 import Routes from './client/Routes';
+import config from '../config';
 
 const app = express();
 
@@ -22,7 +22,7 @@ app.use(
   })
 );
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || config.DEFAULT_DEV_PORT;
 
 // To be able to serve static files
 app.use(express.static('public'));
@@ -40,9 +40,7 @@ app.get('*', (req, res) => {
   // Execute all loadData functions inside given urls and wrap promises with new promises to be able to render pages all the time
   // Even if we get an error while loading data, we will still attempt to render page.
   const promises = routes
-    .map(({ route }) => {
-      return route.loadData ? route.loadData(store, id) : null;
-    })
+    .map(({ route }) => (route.loadData ? route.loadData(store, id) : null))
     .map(promise => {
       if (promise) {
         return new Promise((resolve, reject) => {
