@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Helmet } from 'react-helmet';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 import PropTypes from 'prop-types';
 
 import * as articleActionCreator from './articleActionCreator';
+import Card from '../../components/atoms/Card';
 
 const ArticlePage = ({
   articleState: { articles, error, loading },
@@ -40,19 +40,14 @@ const ArticlePage = ({
 
   const renderArticles = () => {
     return articles.map(article => (
-      <div className="col s12 m6 l6 xl4" key={article.title}>
-        <div className="card large">
-          <div className="card-image">
-            <LazyLoadImage alt={article.title} src={article.urlToImage} />
-          </div>
-          <div className="card-content">
-            <span className="card-title">{article.title}</span>
-          </div>
-          <div className="card-action">
-            <span onClick={() => gotoArticleDetails(article)}>Read More</span>
-          </div>
-        </div>
-      </div>
+      <Card
+        key={article.title}
+        readMore={() => gotoArticleDetails(article)}
+        details={{
+          title: article.title,
+          image: article.urlToImage
+        }}
+      />
     ));
   };
 
