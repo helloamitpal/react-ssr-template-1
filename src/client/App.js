@@ -2,9 +2,9 @@ import React from 'react';
 import { renderRoutes } from 'react-router-config';
 import PropTypes from 'prop-types';
 
-import ErrorBoundary from './components/ErrorBoundry';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import ErrorBoundary from './components/molecules/ErrorBoundry';
+import Header from './components/molecules/Header';
+import Footer from './components/molecules/Footer';
 
 const App = ({ route }) => (
   <div>

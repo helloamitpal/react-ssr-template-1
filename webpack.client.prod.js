@@ -3,8 +3,9 @@ const path = require('path');
 const merge = require('webpack-merge');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
 const baseConfig = require('./webpack.base');
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const config = {
   mode: 'production',
@@ -43,7 +44,7 @@ const config = {
   },
   devtool: 'inline-source-map',
   plugins: [
-    // new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin(),
     new CompressionPlugin(),
     new webpack.DefinePlugin({
       'process.env': {

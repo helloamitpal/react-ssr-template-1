@@ -17,6 +17,7 @@ const renderer = (req, store, context) => {
     </Provider>
   );
   const helmet = Helmet.renderStatic();
+
   return `<!DOCTYPE html>
     <html>
       <head>
