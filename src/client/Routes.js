@@ -1,24 +1,31 @@
-import HomePage from './pages/HomePage';
-import NotFoundPage from './pages/NotFoundPage';
-import ArticleListPage from './pages/ArticleListPage';
+import ArticlePage from './modules/Article/ArticlePage';
+import NotFoundPage from './modules/NotFound/NotFoundPage';
+//import ArticleCategoryPage from './modules/Article/Category/ArticleCategoryPage';
+// import ArticleDetailsPage from './modules/Article/Details/ArticleDetailsPage';
 import App from './App';
 
-export default [
+const routeConfig = [
   {
     ...App,
     routes: [
       {
-        ...HomePage,
+        ...ArticlePage,
         path: '/',
         exact: true
       },
-      {
+      /*{
         path: '/articles/:id',
-        ...ArticleListPage
+        ...ArticleCategoryPage
       },
+      {
+        path: '/articles/:id/details',
+        ...ArticleDetailsPage
+      },*/
       {
         ...NotFoundPage
       }
     ]
   }
 ];
+
+export default routeConfig;

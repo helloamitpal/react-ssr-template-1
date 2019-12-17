@@ -5,6 +5,7 @@ This is a React based Server side rendering boilerplate. Key tech-stack and feat
 - React
 - Redux
 - Redux-thunk
+- Redux-pack
 - Express
 - Progressive web app (PWA)
 - Server side rendering (SSR)

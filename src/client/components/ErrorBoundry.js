@@ -1,36 +1,29 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class ErrorBoundary extends React.Component {
+class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
-    this.state = { error: null, errorInfo: null };
+    this.state = { error: null };
   }
 
   componentDidCatch(error, errorInfo) {
     // Catch errors in any components below and re-render with error message
-    this.setState({
-      error,
-      errorInfo
-    });
+    this.setState({ error });
     // You can also log error messages to an error reporting service here
   }
 
   render() {
-    const { state } = this;
+    const { error } = this.state;
     const { children } = this.props;
 
-    if (state.errorInfo) {
+    if (error) {
       // Error path
       return (
-        <>
-          <h2>Something went wrong.</h2>
-          <details style={{ whiteSpace: 'pre-wrap' }}>
-            {state.error && state.error.toString()}
-            <br />
-            {state.errorInfo.componentStack}
-          </details>
-        </>
+        <h2>
+          Something went wrong. Sorry for the inconvenience caused. Please try again after some
+          time.
+        </h2>
       );
     }
     // Normally, just render children

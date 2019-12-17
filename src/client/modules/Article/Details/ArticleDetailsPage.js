@@ -32,9 +32,7 @@ const ArticleListPage = props => {
             <span className="card-title">{article.title}</span>
           </div>
           <div className="card-action">
-            <a href="javascript:void(0)" onClick={() => readArticle(article)}>
-              Read More
-            </a>
+            <span onClick={() => readArticle(article)}>Read More</span>
           </div>
         </div>
       </div>
@@ -114,9 +112,6 @@ ArticleListPage.defaultProps = {
 };
 
 export default {
-  component: connect(
-    mapStateToProps,
-    { fetchArticles }
-  )(ArticleListPage),
+  component: connect(mapStateToProps, { fetchArticles })(ArticleListPage),
   loadData
 };

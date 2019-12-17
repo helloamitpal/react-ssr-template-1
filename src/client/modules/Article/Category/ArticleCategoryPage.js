@@ -4,11 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import PropTypes from 'prop-types'; // ES6
-import { fetchArticles } from '../actions';
+import PropTypes from 'prop-types';
 import ArticleDetailModal from '../components/ArticleDetailModal';
+import { fetchArticles } from '../actions';
 
-const HomePage = props => {
+const ArticleListPage = props => {
   const [modal, setModal] = useState(false);
   const [currentArticle, setCurrentArticle] = useState({});
 
@@ -32,26 +32,28 @@ const HomePage = props => {
             <span className="card-title">{article.title}</span>
           </div>
           <div className="card-action">
-            <a href="javascript:void(0)" onClick={() => readArticle(article)}>
-              Read More
-            </a>
+            <span onClick={() => readArticle(article)}>Read More</span>
           </div>
         </div>
       </div>
     ));
   };
 
+  const { articles, location, match } = props;
+
+  const category = props && articles[0] && articles[0].source.name;
+
   const head = () => {
     return (
       <Helmet key={Math.random()}>
-        <title>SSR Daily News - ilker ALTIN</title>
-        <meta property="og:title" content="SSR Daily News - ilker ALTIN" />
+        <title>{`${category} Articles`}</title>
+        <meta property="og:title" content={`${category} Articles List`} />
         <meta
           name="description"
-          content="Breaking news,latest articles, popular articles from most popular news websites of the world"
+          content={`Latest ${category} articles, popular articles from most popular news websites of the world`}
         />
         <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://react-ssr-ilker.herokuapp.com" />
+        <link rel="canonical" href={`https://react-ssr-ilker.herokuapp.com${location.pathname}`} />
       </Helmet>
     );
   };
@@ -60,15 +62,19 @@ const HomePage = props => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    loadArticles();
-  }, [loadArticles]);
+    if (match.params.id) {
+      loadArticles(match.params.id);
+    } else {
+      loadArticles();
+    }
+  }, [loadArticles, match.params.id]);
   return (
     <div>
       {head()}
       {modal ? <ArticleDetailModal handler={closeModal} data={currentArticle} /> : null}
       <div className="row">
         <div className="section">
-          <h3>Popular Articles</h3>
+          <h3>{category}</h3>
         </div>
         <div className="divider" />
         <div className="section">
@@ -85,26 +91,27 @@ const mapStateToProps = state => {
   };
 };
 
-const loadData = store => {
+const loadData = (store, param) => {
   // For the connect tag we need Provider component but on the server at this moment app is not rendered yet
   // So we need to use store itself to load data
-  return store.dispatch(fetchArticles()); // Manually dispatch a network request
+  return store.dispatch(fetchArticles(param)); // Manually dispatch a network request
 };
 
-HomePage.propTypes = {
+ArticleListPage.propTypes = {
   articles: PropTypes.arrayOf(PropTypes.any),
+  location: PropTypes.objectOf(PropTypes.any),
+  match: PropTypes.objectOf(PropTypes.any),
   fetchArticles: PropTypes.func
 };
 
-HomePage.defaultProps = {
+ArticleListPage.defaultProps = {
   articles: [],
+  location: null,
+  match: null,
   fetchArticles: null
 };
 
 export default {
-  component: connect(
-    mapStateToProps,
-    { fetchArticles }
-  )(HomePage),
+  component: connect(mapStateToProps, { fetchArticles })(ArticleListPage),
   loadData
 };

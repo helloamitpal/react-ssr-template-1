@@ -1,10 +1,10 @@
 import '@babel/polyfill';
 import express from 'express';
-import React from 'react';
 import { matchRoutes } from 'react-router-config';
 import compression from 'compression';
+
 import renderer from './helpers/renderer';
-import createStore from './store/createStore';
+import createStore from './store';
 import Routes from './client/Routes';
 import config from '../config';
 
