@@ -7,7 +7,14 @@ import PropTypes from 'prop-types';
 
 import * as articleActionCreator from './articleActionCreator';
 
-const ArticlePage = ({ articleState: { articles, error, loading }, articleActions, history }) => {
+const ArticlePage = ({
+  articleState: { articles, error, loading },
+  articleActions,
+  history,
+  match,
+  location: { pathname }
+}) => {
+  const category = articles[0] && articles[0].source.name;
   const head = () => (
     <Helmet key={`article-page-${Math.random()}`}>
       <title>React SSR Template</title>
@@ -17,7 +24,10 @@ const ArticlePage = ({ articleState: { articles, error, loading }, articleAction
         content="Breaking news,latest articles, popular articles from most popular news websites of the world"
       />
       <meta name="robots" content="index, follow" />
-      <link rel="canonical" href="https://react-ssr-template-app.herokuapp.com/" />
+      <link
+        rel="canonical"
+        href={`https://react-ssr-template-app.herokuapp.com${pathname || ''}`}
+      />
     </Helmet>
   );
 
@@ -47,16 +57,17 @@ const ArticlePage = ({ articleState: { articles, error, loading }, articleAction
   };
 
   useEffect(() => {
+    const id = (match.params && match.params.id) || '';
     window.scrollTo(0, 0);
-    articleActions.fetchArticles();
-  }, [articleActions]);
+    articleActions.fetchArticles(id);
+  }, [match.params]);
 
   return (
-    <div>
+    <div className="article-page-container">
       {head()}
       <div className="row">
         <div className="section">
-          <h3>Popular Articles</h3>
+          <h3>{category || 'Popular Articles'}</h3>
         </div>
         <div className="divider" />
         <div className="section">
@@ -79,19 +90,24 @@ const loadData = store => {
   // For the connect tag we need Provider component but on the server at this moment app is not rendered yet
   // So we need to use store itself to load data
   const { fetchArticles } = articleActionCreator;
+  console.log('Article Page SSR: Loading data before connecting the data');
   return store.dispatch(fetchArticles()); // Manually dispatch a network request
 };
 
 ArticlePage.propTypes = {
   articleState: PropTypes.object,
   articleActions: PropTypes.object,
-  history: PropTypes.object
+  history: PropTypes.object,
+  match: PropTypes.object,
+  location: PropTypes.object
 };
 
 ArticlePage.defaultProps = {
   articleState: {},
-  articleActions: null,
-  history: {}
+  articleActions: {},
+  history: {},
+  match: {},
+  location: {}
 };
 
 export default {

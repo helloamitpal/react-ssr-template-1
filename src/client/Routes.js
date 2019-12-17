@@ -1,7 +1,6 @@
 import ArticlePage from './modules/Article/ArticlePage';
 import NotFoundPage from './modules/NotFound/NotFoundPage';
-//import ArticleCategoryPage from './modules/Article/Category/ArticleCategoryPage';
-// import ArticleDetailsPage from './modules/Article/Details/ArticleDetailsPage';
+import ArticleDetailsPage from './modules/Article/Details/ArticleDetailsPage';
 import App from './App';
 
 const routeConfig = [
@@ -13,14 +12,14 @@ const routeConfig = [
         path: '/',
         exact: true
       },
-      /*{
+      {
         path: '/articles/:id',
-        ...ArticleCategoryPage
+        ...ArticlePage
       },
       {
         path: '/articles/:id/details',
         ...ArticleDetailsPage
-      },*/
+      },
       {
         ...NotFoundPage
       }
