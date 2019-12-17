@@ -3,11 +3,10 @@ import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 
 const ArticleDetailsPage = ({ history, location: { state, pathname } }) => {
-  const articleData = state && state.article;
-  const { title, urlToImage, description, content, url } = articleData || {};
+  const { title, urlToImage, description, content, url } = state;
 
   const head = () => (
-    <Helmet key={`article-page-${Math.random()}`}>
+    <Helmet key={`article-details-page-${Math.random()}`}>
       <title>React SSR Template Details</title>
       <meta property="og:title" content="React SSR Template" />
       <meta

@@ -14,11 +14,13 @@ const routeConfig = [
       },
       {
         path: '/articles/:id',
-        ...ArticlePage
+        ...ArticlePage,
+        exact: true
       },
       {
         path: '/articles/:id/details',
-        ...ArticleDetailsPage
+        ...ArticleDetailsPage,
+        exact: true
       },
       {
         ...NotFoundPage
