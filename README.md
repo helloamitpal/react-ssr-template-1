@@ -80,4 +80,4 @@ $ npm run build:prod
 
 You can deploy this project to:
 
-- [Heroku](https://www.heroku.com/)
+[Heroku](https://www.heroku.com/)
